@@ -1,0 +1,102 @@
+#!/usr/bin/python
+from Tkinter import *
+import random
+import time
+
+#Choice Loop
+bad_words = 0
+words = ""
+wait = 0
+choices = ["It is certain",
+           "It is decidedly so",
+           "Without a doubt",
+           "Yes definitely",
+           "You may rely on it",
+           "As I see it"," yes",
+           "Most likely",
+           "Outlook good",
+           "Yes",
+           "Signs point to yes",
+           "Reply hazy try again",
+           "Ask again later",
+           "Better not tell you now",
+           "Cannot predict now",
+           "Concentrate and ask again",
+           "Don't count on it",
+           "My reply is no",
+           "My sources say no",
+           "Outlook not so good",
+           "Very doubtful"]
+
+
+class Application(Frame):
+
+    def __init__(self,master):
+        Frame.__init__(self,master)
+        self.grid()
+        self.create_widgets()
+
+    def create_widgets(self):
+        font = 'times 18 bold underline'
+        self.welcome=Label(self, text=" Magic 8 Ball ", font =font)
+        self.welcome.grid(row=0,column=0,columnspan=4)
+        
+        self.instruction=Label(self, text=" Enter your question ")
+        self.instruction.grid(row=1,column=0,columnspan=2)
+        
+        self.textBox=Entry(self)
+        self.textBox.grid()
+
+        self.submit_button= Button(self,text=" ASK ", command=self.something)
+        self.submit_button.grid()
+
+        self.text=Text(self,width=35, height=5,wrap=WORD)
+        self.text.grid()
+
+        #self.tryagain_button= Button(self,text=" Ask again ", state=DISABLED, command=self.something)
+        self.tryagain_button= Button(self,text=" Ask again ", command=self.clear)
+        self.tryagain_button.grid(row=8,column=0,columnspan=2, sticky=W)
+
+        self.quit= Button(self,text=" Quit ", command=self.quit)
+        self.quit.grid(row=8,column=1,columnspan=2)
+
+
+
+    def rtd(self):
+    #print("Working...")
+        #time.sleep(2)
+        global choices
+        self.text.delete(0.0,END)
+        self.text.insert(0.0,random.choice(choices)+"\n")
+        #self.submit_button['state']='disabled'
+        #self.tryagain_button['state']='active'
+
+    def quit(self):
+        global root
+        root.quit()
+
+    def something(self):
+        #self.textBox.delete(0,END)
+        content=self.textBox.get()
+        if content=="":
+            message="Please enter your question"
+            self.text.delete(0.0,END)
+            self.text.insert(0.0,message)
+            #self.text['state']='disabled'
+            
+        else:
+            #self.text['state']='normal'
+            self.rtd()
+
+    def clear(self):
+        self.textBox.delete(0,END)
+        self.text.delete(0.0,END)
+        
+        
+if __name__=="__main__":
+    root =Tk()
+    root.geometry("250x150")
+    root.title("Magic 8 Ball")
+    app = Application(root)
+
+    root.mainloop()
